@@ -1,0 +1,10 @@
+SMB Join : sort merge bucket join,
+	   it is speical type of map join applied on the bucket tables that have same sorted,bucket and join conidtion columns,
+	 Step 1 : Reads the data from both the bucket tables  and perform common joins on the bucket table
+
+ Config :jdbc:hive2://>
+SET hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;
+SET hive.auto.convert.sortmerge.join=true;
+SET hive.optimize.bucketmapjoin=true;
+SET hive.optimize.bucketmapjoin.sortedmerge=true;
+SET hive.auto.convert.sortmerge.join.noconditionaltask=true;

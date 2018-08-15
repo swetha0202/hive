@@ -1,0 +1,13 @@
+skew Join : it scans the data ,it detects keys with large skew,instead of  processing those keys,it stores temporarly in hdfs directory.
+	   in map reduce job process those skewed keys.,the same key need not be skew for all the tables and map reduce job is faster 
+
+  Example : for both table and b,has skewed data 'mytest',assume b has less rows,
+
+            step 1 --> scan  b and save all rows with the key mytest in-memory hash table,
+	    Step2  --> run set of mappers to read table A ,if it has skewd key 'mytest',it wil use hashed version of b for the join
+ 	    Step 3 --> other keys send rows to a reducer to perform join,the same reducer will get rows from the mappers that scannign table B
+
+Config : set hive.optimize.skewjoin = true;
+set hive.skewjoin.key=500000;
+set hive.skewjoin.mapjoin.map.tasks=10000;
+set hive.skewjoin.mapjoin.min.split=33554432;

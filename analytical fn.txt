@@ -1,0 +1,44 @@
+Analytic functions:
+
+Row_Number: Row number is hive analytic function is used to assign unique values to each rows within group based on the column values used in OVER clause.
+
+Rank: Get rank of the rows in column or within group.Rows with equal values recieve same rank and the rank value is skipped.,rank analytic function is used in top 'n' analysis.
+
+
+Dense_rank: Dense Rank Hive function returns the rank of a value in a group.rows with equal values for ranking criteria reiceve the same rank and assign rank in sequential order i.e no rank values are skipped.the rank analytic function is used in top n analysis.
+
+Command:
+select pat_id, dept_id, ins_amt, row_number() over (order by ins_amt) as rn, rank() over (order by ins_amt ) as rk, 
+dense_rank() over (order by ins_amt ) as dense_rk from patient;
+
+pat_id	dept_id	ins_amt	rn	rk	dense_rk
+8	444	10000	1	1	1
+5	111	50000	2	2	2
+6	111	90000	3	3	3
+1	111	100000	4	4	4
+7	333	110000	5	5	5
+2	111	150000	6	6	6
+3	222	150000	7	6	6
+4	222	250000	8	8	7
+5	222	890000	9	9	8
+
+
+cume_dist: CUME_DIST is analytic function that returns the cumulative distribution of a given row,it computes the relative position of a specified value in a group of values.
+The range of values returned by cume_dist is >0 to <= 1
+
+
+
+percent_rank: calculates the relative rank of a row within the group of rows.
+ PERCENT_RANK ranks a value by calculating its rank minus 1 (rk - 1), and dividing that value by the number of rows in the partition minus 1 (nr - 1). For each row in a partition PERCENT_RANK returns (rk -1) / (nr - 1). A float value between 0 and 1 is returned which represents a percentage.
+
+
+
+
+Ntile:NTILE is an analytic function. It divides an ordered data set into a number of buckets indicated by expr and assigns the appropriate bucket number to each row. The buckets are numbered 1 through expr .
+
+1   S1  75
+1   S2  83
+1   S4  83
+2   S3  91
+2   S6  92
+2   S5  93

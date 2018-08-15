@@ -1,0 +1,23 @@
+Hive Partitions 
+
+--> Loading 'geolocation.csv' data to hive database and execute partitions with respective cities
+
+
+Step 1.
+create table trucking(truckid string,driverid string,event string,latitude double,longitude double,city string,state string,velocity int,event_ind int,id
+ling_ind int) row format delimited fields terminated by ',';
+
+Step 2.  
+hive (soumith)> load data local inpath '/home/studentlogin20204631/soumith/geolocation.csv' into table trucking;
+
+Step 3.
+hive (soumith)> create table truck_part(truckid string,driverid string,event string,latitude double,longitude double,state int,velocity int,event_ind int,idling_ind int)
+PARTITIONED BY(city string);
+ 
+ 
+Step 4.
+hive (soumith)> set hive.exec.dynamic.partition.mode=nonstrict;
+ 
+Step 5.
+hive(soumith)> insert overwrite table truck_part PARTITION(city) select truckid,driverid,event,latitude,longitude,state,velocity,event_ind,idling_ind,city from trucking
+;
